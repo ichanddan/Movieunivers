@@ -26,9 +26,11 @@ export default function Header() {
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           className="sm:hidden"
         />
+        <Link to="/">
         <NavbarBrand>
           <p className="font-bold text-inherit">MovieUnivers</p>
         </NavbarBrand>
+        </Link>
       </NavbarContent>
 
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
