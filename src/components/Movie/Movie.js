@@ -4,6 +4,7 @@ import ReactStars from "react-rating-stars-component";
 import { movieRef } from "../../firebase/firebase";
 import { Puff } from "react-loader-spinner";
 import { getDocs } from "firebase/firestore";
+import { Link } from "react-router-dom";
 
 export default function Movie() {
   const [movieData, setMoviedata] = useState([]);
@@ -13,7 +14,7 @@ export default function Movie() {
       setLoding(true);
       const _data = await getDocs(movieRef);
       _data.forEach((doc) => {
-        setMoviedata((pev) => [...pev, doc.data()]);
+        setMoviedata((pev) => [...pev, {...(doc.data()),id: doc.id}]);
       });
       setLoding(false);
     }
@@ -32,6 +33,7 @@ export default function Movie() {
         movieData.map((element, index) => {
           return (
             <Card key={index} className="mt-5 mx-5 w-1/5" id="card">
+              <Link to={`/details/${element.id}`}>
               <CardBody className="overflow-visible py-2" id="card1">
                 <Image
                   alt="Card background"
@@ -50,6 +52,7 @@ export default function Movie() {
                 />
                 <p className="text-tiny uppercase font-bold">{element.year}</p>
               </CardHeader>
+            </Link>
             </Card>
           );
         })
