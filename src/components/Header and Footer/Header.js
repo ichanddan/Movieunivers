@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Navbar,
   NavbarBrand,
@@ -11,9 +11,11 @@ import {
   Input,
 } from "@nextui-org/react";
 import { Link } from "react-router-dom";
+import { Avatar } from "@nextui-org/react";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const [admin, setAdmin] = useState(true);
 
   const menuItems = ["Profile"];
 
@@ -39,12 +41,23 @@ export default function Header() {
       </NavbarContent>
       <NavbarContent justify="end">
         <NavbarItem className="hidden lg:flex">
-          <Link href="#">Login</Link>
+          {admin === true ? (
+            <Link to="addmovie">Add Movie</Link>
+          ) : (
+            <Link href="/">Login</Link>
+          )}
         </NavbarItem>
         <NavbarItem>
-          <Button as={Link} color="primary" href="#" variant="flat">
-            Sign Up
-          </Button>
+          {admin === true ? (
+            <Avatar
+              src="https://i.pravatar.cc/150?u=a04258a2462d826712d"
+              size="sm"
+            />
+          ) : (
+            <Button as={Link} color="primary" href="#" variant="flat">
+              Sign Up
+            </Button>
+          )}
         </NavbarItem>
       </NavbarContent>
       <NavbarMenu>
