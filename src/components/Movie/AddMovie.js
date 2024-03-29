@@ -18,7 +18,7 @@ export const AddMovie = () => {
       await addDoc(movieRef, dataStore);
       swel({
         title: "Succesfully Added",
-        icon: "Succes",
+        icon: "success",
         buttons: false,
         timer: 3000,
       });

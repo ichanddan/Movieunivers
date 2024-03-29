@@ -1,3 +1,45 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+#card{
+    height: 450px;
+}
+
+@media only screen and (max-width: 768px) {
+    #m{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 10px;
+    }
+    #card{
+        width: 50%;
+        height: 500px;
+        
+    }
+    #card1{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+  }
+@media only screen and (max-width: 600px) {
+    #m{
+        flex-direction: column;
+    }
+    #card{
+        width: 90%;
+        
+    }
+    #card1{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    #card1 Image{
+        width: 100%;
+        
+    }
+  }
