@@ -8,15 +8,14 @@ import {
   NavbarMenu,
   NavbarMenuItem,
   Button,
+  Input,
 } from "@nextui-org/react";
 import { Link } from "react-router-dom";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
-  const menuItems = [
-    "Profile",
-  ];
+  const menuItems = ["Profile"];
 
   return (
     <Navbar onMenuOpenChange={setIsMenuOpen}>
@@ -26,26 +25,17 @@ export default function Header() {
           className="sm:hidden"
         />
         <NavbarBrand>
-          <p className="font-bold text-inherit">ACME</p>
+          <p className="font-bold text-inherit">MovieUnivers</p>
         </NavbarBrand>
       </NavbarContent>
 
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
-        <NavbarItem>
-          <Link color="foreground" href="#">
-            Features
-          </Link>
-        </NavbarItem>
-        <NavbarItem isActive>
-          <Link href="#" aria-current="page">
-            Customers
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Link color="foreground" href="#">
-            Integrations
-          </Link>
-        </NavbarItem>
+        <Input
+          type="text"
+          placeholder="Sarch..."
+          className="rounded-none w-96"
+        />
+        <button>Search</button>
       </NavbarContent>
       <NavbarContent justify="end">
         <NavbarItem className="hidden lg:flex">
