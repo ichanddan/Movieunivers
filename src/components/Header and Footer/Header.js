@@ -17,7 +17,10 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const [admin, setAdmin] = useState(true);
 
-  const menuItems = ["Profile"];
+  const menuItems = [
+    { name: "Home", href: "/" },
+    { name: "Add Movie", href: "/addmovie" },
+  ];
 
   return (
     <Navbar onMenuOpenChange={setIsMenuOpen}>
@@ -63,21 +66,21 @@ export default function Header() {
         </NavbarItem>
       </NavbarContent>
       <NavbarMenu>
-        {menuItems.map((item, index) => (
-          <NavbarMenuItem key={`${item}-${index}`}>
+        {menuItems.map((menuItem, index) => (
+          <NavbarMenuItem key={index}>
             <Link
               color={
                 index === 2
                   ? "primary"
-                  : index === menuItems.length - 1
+                  : index === menuItem.length - 1
                   ? "danger"
                   : "foreground"
               }
               className="w-full"
-              href="#"
+              to={menuItem.href}
               size="lg"
             >
-              {item}
+              {menuItem.name}
             </Link>
           </NavbarMenuItem>
         ))}
