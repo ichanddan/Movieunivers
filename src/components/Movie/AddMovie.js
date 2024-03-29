@@ -1,20 +1,47 @@
 import React, { useState } from "react";
+import { Puff } from "react-loader-spinner";
+import { addDoc } from "firebase/firestore";
+import swel from "sweetalert";
+import { movieRef } from "../../firebase/firebase";
 
 export const AddMovie = () => {
-    const [dataStore, setDatastore] = useState({
-        title:"",
-        image:"",
-        year:Number,
-        description:""
-    })
-    const [store, setStore]= useState([])
+  const [dataStore, setDatastore] = useState({
+    title: "",
+    image: "",
+    year: Number,
+    description: "",
+  });
+  const [loding, setLoding] = useState();
+  const addMovie = async () => {
+    setLoding(true);
+    try {
+      await addDoc(movieRef, dataStore);
+      swel({
+        title: "Succesfully Added",
+        icon: "Succes",
+        buttons: false,
+        timer: 3000,
+      });
+    } catch (error) {
+      swel({
+        title: error,
+        icon: "error",
+        buttons: false,
+        timer: 3000,
+      });
+    }
+    setLoding(false);
+  };
+
   return (
     <>
       <div className="max-w-md mx-auto my-16">
         <div className="relative z-0 w-full mb-5 group">
           <input
-          value={dataStore.title}
-          onChange={(e)=>{setDatastore({...dataStore, title: e.target.value})}}
+            value={dataStore.title}
+            onChange={(e) => {
+              setDatastore({ ...dataStore, title: e.target.value });
+            }}
             type="text"
             name="floating_email"
             id="floating_email"
@@ -31,8 +58,10 @@ export const AddMovie = () => {
         </div>
         <div className="relative z-0 w-full mb-5 group">
           <input
-          value={dataStore.image}
-          onChange={(e)=>{setDatastore({...dataStore, image: e.target.value})}}
+            value={dataStore.image}
+            onChange={(e) => {
+              setDatastore({ ...dataStore, image: e.target.value });
+            }}
             type="text"
             name="floating_password"
             id="floating_password"
@@ -49,8 +78,10 @@ export const AddMovie = () => {
         </div>
         <div className="relative z-0 w-full mb-5 group">
           <input
-          value={dataStore.year}
-          onChange={(e)=>{setDatastore({...dataStore, year: e.target.value})}}
+            value={dataStore.year}
+            onChange={(e) => {
+              setDatastore({ ...dataStore, year: e.target.value });
+            }}
             type="number"
             name="repeat_password"
             id="floating_repeat_password"
@@ -68,21 +99,23 @@ export const AddMovie = () => {
             Description
           </label>
           <textarea
-          value={dataStore.description}
-          onChange={(e)=>{setDatastore({...dataStore, description: e.target.value})}}
+            value={dataStore.description}
+            onChange={(e) => {
+              setDatastore({ ...dataStore, description: e.target.value });
+            }}
             type="text"
             className="h-36 block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
             required
           ></textarea>
         </div>
         <div className="flex items-center justify-center">
-        <button
-        onClick={()=>{setStore([...store,{dataStore}])}}
-          type="submit"
-          className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm  sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-        >
-          Submit
-        </button>
+          <button
+            onClick={addMovie}
+            type="submit"
+            className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm  sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          >
+            {loding === true ? <Puff height={25} color="white" /> : "Submit"}
+          </button>
         </div>
       </div>
     </>
