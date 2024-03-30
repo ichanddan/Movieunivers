@@ -7,6 +7,7 @@ import { AddMovie } from './components/Movie/AddMovie'
 import { Moviedetails } from './components/Movie/Moviedetails'
 import SignUp from './components/Accounts/SingUp'
 import LogIn from './components/Accounts/LogIn'
+import Profile from './components/Header and Footer/Profile'
 
 export default function App() {
   return (
@@ -18,6 +19,7 @@ export default function App() {
       <Route path='/details/:id' element={<Moviedetails/>}/>
       <Route path='/signup' element={<SignUp/>}/>
       <Route path='/login' element={<LogIn/>}/>
+      <Route path='/profile' element={<Profile/>}/>
     </Routes>
     <Footer/>
     </BrowserRouter>

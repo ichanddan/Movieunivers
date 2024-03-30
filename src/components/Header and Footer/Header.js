@@ -50,17 +50,19 @@ export default function Header() {
           {admin === true ? (
             <Link to="addmovie">Add Movie</Link>
           ) : (
-            <Link href="/">Login</Link>
+            <Link to="/login">Login</Link>
           )}
         </NavbarItem>
         <NavbarItem>
           {admin === true ? (
+            <Link to="/profile">
             <Avatar
               src="https://i.pravatar.cc/150?u=a04258a2462d826712d"
               size="sm"
-            />
+              />
+            </Link>
           ) : (
-            <Button as={Link} color="primary" href="#" variant="flat">
+            <Button as={Link} color="primary" to="/signup" variant="flat">
               Sign Up
             </Button>
           )}
