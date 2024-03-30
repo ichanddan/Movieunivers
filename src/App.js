@@ -5,6 +5,8 @@ import Movie from './components/Movie/Movie'
 import { Footer } from './components/Header and Footer/Footer'
 import { AddMovie } from './components/Movie/AddMovie'
 import { Moviedetails } from './components/Movie/Moviedetails'
+import SignUp from './components/Accounts/SingUp'
+import LogIn from './components/Accounts/LogIn'
 
 export default function App() {
   return (
@@ -14,6 +16,8 @@ export default function App() {
       <Route path='/' element={<Movie/>}/>
       <Route path='/addmovie' element={<AddMovie/>}/>
       <Route path='/details/:id' element={<Moviedetails/>}/>
+      <Route path='/signup' element={<SignUp/>}/>
+      <Route path='/login' element={<LogIn/>}/>
     </Routes>
     <Footer/>
     </BrowserRouter>

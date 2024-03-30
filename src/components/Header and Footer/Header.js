@@ -20,6 +20,7 @@ export default function Header() {
   const menuItems = [
     { name: "Home", href: "/" },
     { name: "Add Movie", href: "/addmovie" },
+    { name: "SignUp / Login", href: "/signup" },
   ];
 
   return (

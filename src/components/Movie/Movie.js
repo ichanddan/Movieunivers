@@ -37,7 +37,7 @@ export default function Movie() {
               <CardBody className="overflow-visible py-2" id="card1">
                 <Image
                   alt="Card background"
-                  className="object-cover rounded-xl"
+                  className="object-cover rounded-xl h-72"
                   src={element.image}
                   width={270}
                 />
