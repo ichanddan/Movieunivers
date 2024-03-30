@@ -15,4 +15,5 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 export const db=getFirestore(app)
 export const movieRef= collection(db,"movie")
+export const userRef= collection(db,"user")
 export default app;

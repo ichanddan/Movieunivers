@@ -3,8 +3,10 @@ import { Puff } from "react-loader-spinner";
 import { addDoc } from "firebase/firestore";
 import swel from "sweetalert";
 import { movieRef } from "../../firebase/firebase";
+import { useNavigate } from "react-router";
 
 export const AddMovie = () => {
+  const navigate = useNavigate();
   const [dataStore, setDatastore] = useState({
     title: "",
     image: "",
@@ -21,7 +23,9 @@ export const AddMovie = () => {
         icon: "success",
         buttons: false,
         timer: 3000,
+        
       });
+      navigate("/")
     } catch (error) {
       swel({
         title: error,

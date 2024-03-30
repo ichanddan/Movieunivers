@@ -1,20 +1,47 @@
 import { Button } from "@nextui-org/react";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Input } from "@nextui-org/react";
 import { EyeSlashFilledIcon } from "./PasswordHide/EyeSlashFilledIcon";
 import { EyeFilledIcon } from "./PasswordHide/EyeFilledIcon";
+import { userRef } from "../../firebase/firebase";
+import swel from "sweetalert";
+import { Puff } from "react-loader-spinner";
+import { addDoc } from "@firebase/firestore";
 
 export default function SignUp() {
+  const navigate = useNavigate();
   const [isVisible, setIsVisible] = React.useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
-  const [sigData, setSigData] = useState({
-    sigData: "",
-    Number: "",
-    Password: ""
-  });
-  const[otp,setOtp]=useState(true)
 
+  const [dataStore, setDatastore] = useState({
+    Name: "",
+    Number: "",
+    Password: "",
+  });
+  const [loding, setLoding] = useState();
+  const addMovie = async () => {
+    setLoding(true);
+    try {
+      await addDoc(userRef, dataStore);
+
+      swel({
+        title: "Succesfully Added",
+        icon: "success",
+        buttons: false,
+        timer: 3000,
+      });
+      navigate("/login");
+    } catch (error) {
+      swel({
+        title: error,
+        icon: "error",
+        buttons: false,
+        timer: 3000,
+      });
+    }
+    setLoding(false);
+  };
   return (
     <div>
       <div className="min-h-screen bg-gray-100 text-gray-900 flex justify-center">
@@ -30,8 +57,11 @@ export default function SignUp() {
                   label="Name"
                   placeholder="Enter your name"
                   className="pb-5"
-                  value={sigData.Name}
-                  onChange={(e) => setSigData({...sigData, Name:e.target.value})}
+                  isRequired
+                  value={dataStore.Name}
+                  onChange={(e) =>
+                    setDatastore({ ...dataStore, Name: e.target.value })
+                  }
                 />
                 <Input
                   type="number"
@@ -39,16 +69,22 @@ export default function SignUp() {
                   label="Number"
                   placeholder="Enter your Number"
                   className="pb-5"
-                  value={sigData.Number}
-                  onChange={(e) => setSigData({...sigData,Number:e.target.value})}
+                  isRequired
+                  value={dataStore.Number}
+                  onChange={(e) =>
+                    setDatastore({ ...dataStore, Number: e.target.value })
+                  }
                 />
 
                 <Input
                   label="Password"
+                  isRequired
                   variant="underlined"
                   placeholder="Enter your password"
-                  value={sigData.Password}
-                  onChange={(e) => setSigData({...sigData, Password:e.target.value})}
+                  value={dataStore.Password}
+                  onChange={(e) =>
+                    setDatastore({ ...dataStore, Password: e.target.value })
+                  }
                   endContent={
                     <button
                       className="focus:outline-none"
@@ -67,24 +103,31 @@ export default function SignUp() {
                 />
                 <div className="flex items-center justify-center">
                   <Button
+                    onClick={addMovie}
                     size="md"
                     color="primary"
                     className="mt-5"
                     type="submit"
                   >
-                    <svg
-                      className="w-6 h-6 -ml-2"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    >
-                      <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
-                      <circle cx="8.5" cy="7" r="4" />
-                      <path d="M20 8v6M23 11h-6" />
-                    </svg>
-                    <span>signup</span>
+                    {loding === true ? (
+                      <Puff height={25} color="white" />
+                    ) : (
+                      <>
+                        <svg
+                          className="w-6 h-6 -ml-2"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        >
+                          <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
+                          <circle cx="8.5" cy="7" r="4" />
+                          <path d="M20 8v6M23 11h-6" />
+                        </svg>{" "}
+                        <span>signup</span>
+                      </>
+                    )}
                   </Button>
                 </div>
                 <p className="mt-6 text-xs text-gray-600 text-center">
