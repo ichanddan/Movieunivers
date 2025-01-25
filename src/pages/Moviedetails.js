@@ -1,7 +1,7 @@
 import { Image } from "@heroui/image";
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { db } from '../../firebase/firebase';
+import { db } from '../firebase/firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import ReactStars from "react-rating-stars-component";
 

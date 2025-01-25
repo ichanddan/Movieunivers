@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Puff } from "react-loader-spinner";
 import { addDoc } from "firebase/firestore";
 import swel from "sweetalert";
-import { movieRef } from "../../firebase/firebase";
+import { movieRef } from "../firebase/firebase";
 import { useNavigate } from "react-router";
 
 export const AddMovie = () => {

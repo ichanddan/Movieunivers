@@ -1,13 +1,13 @@
 import React from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Header from './components/Header and Footer/Header'
-import Movie from './components/Movie/Movie'
 import { Footer } from './components/Header and Footer/Footer'
-import { AddMovie } from './components/Movie/AddMovie'
-import { Moviedetails } from './components/Movie/Moviedetails'
 import SignUp from './components/Accounts/SingUp'
 import LogIn from './components/Accounts/LogIn'
 import Profile from './components/Header and Footer/Profile'
+import { Moviedetails } from './pages/Moviedetails'
+import { AddMovie } from './pages/AddMovie'
+import Movie from './pages/Movie'
 
 export default function App() {
   return (
