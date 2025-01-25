@@ -1,4 +1,4 @@
-import { Avatar } from "@heroui/react";
+import { Avatar, Button } from "@heroui/react";
 import React, { useEffect, useState } from "react";
 import { userRef } from "../../firebase/firebase";
 import { getDocs, where } from "firebase/firestore";
@@ -8,8 +8,7 @@ import { useNavigate } from "react-router-dom";
 export default function Profile() {
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
-  const [loading, setLoading] = useState(true);
-
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     async function getData() {
       try {
@@ -19,13 +18,16 @@ export default function Profile() {
           return;
         }
         setLoading(true);
-        const snapshot = await getDocs(userRef, where("id","==",userLocaldata.id));
-        const data = snapshot.docs.map(doc => doc.data());
-        console.log(data)
+        const snapshot = await getDocs(
+          userRef,
+          where("id", "==", userLocaldata.id)
+        );
+        const data = snapshot.docs.map((doc) => doc.data());
+        console.log(data);
         if (data.length > 0) {
-          console.log(data)
-          setUserData(data[1]); // Assuming there's only one document in the collection
+          setUserData(data[0]); // Assuming there's only one document in the collection
         }
+        console.log("data is empty");
       } catch (error) {
         console.error("Error fetching user data:", error);
       } finally {
@@ -48,7 +50,10 @@ export default function Profile() {
               <div className="flex items-center justify-center p-10">
                 <Avatar
                   isBordered
-                  src={userData?.Image || "https://i.pravatar.cc/150?u=a04258a2462d826712d"}
+                  src={
+                    userData?.Image ||
+                    "https://i.pravatar.cc/150?u=a04258a2462d826712d"
+                  }
                   className="w-40 h-40"
                 />
               </div>
@@ -66,30 +71,45 @@ export default function Profile() {
               <div className="border-t border-gray-200 px-4 py-5 sm:p-0">
                 <dl className="sm:divide-y sm:divide-gray-200">
                   <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                    <dt className="text-sm font-medium text-gray-500">Full name</dt>
+                    <dt className="text-sm font-medium text-gray-500">
+                      Full name
+                    </dt>
                     <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                       {userData?.Name}
                     </dd>
                   </div>
                   <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                    <dt className="text-sm font-medium text-gray-500">Email address</dt>
+                    <dt className="text-sm font-medium text-gray-500">
+                      Email address
+                    </dt>
                     <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                       {userData?.Email}
                     </dd>
                   </div>
                   <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                    <dt className="text-sm font-medium text-gray-500">Phone number</dt>
+                    <dt className="text-sm font-medium text-gray-500">
+                      Phone number
+                    </dt>
                     <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                       {userData?.Number}
                     </dd>
                   </div>
                   <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                    <dt className="text-sm font-medium text-gray-500">Address</dt>
+                    <dt className="text-sm font-medium text-gray-500">
+                      Address
+                    </dt>
                     <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                       {userData?.Address}
                     </dd>
                   </div>
                 </dl>
+              </div>
+              <div className="flex items-center justify-center p-4">
+              <Button color="default" onPress={()=>{
+                localStorage.removeItem("userData");
+                navigate("/");
+              }}>logout</Button>
+
               </div>
             </div>
           )}
