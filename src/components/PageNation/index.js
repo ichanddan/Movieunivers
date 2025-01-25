@@ -23,7 +23,7 @@ export const ChevronIcon = (props) => {
   );
 };
 
-export default function PageNation() {
+export default function PageNation({ currentPage, total, onChange }) {
   const renderItem = ({
     ref,
     key,
@@ -66,7 +66,6 @@ export default function PageNation() {
       );
     }
 
-    // cursor is the default item
     return (
       <button
         key={key}
@@ -76,7 +75,10 @@ export default function PageNation() {
           isActive &&
             "text-white bg-gradient-to-br from-indigo-500 to-pink-500 font-bold"
         )}
-        onClick={() => setPage(value)}
+        onClick={() => {
+          setPage(value);
+          onChange(value); // Trigger page change callback
+        }}
       >
         {value}
       </button>
@@ -88,10 +90,10 @@ export default function PageNation() {
       disableCursorAnimation
       showControls
       className="gap-2"
-      initialPage={1}
+      initialPage={currentPage}
       radius="full"
       renderItem={renderItem}
-      total={10}
+      total={total}
       variant="light"
     />
   );
