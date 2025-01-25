@@ -16,19 +16,27 @@ import { Link } from "react-router-dom";
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const [admin, setAdmin] = useState(false);
-
-  const menuItems = [
-    { name: "Home", href: "/" },
-    { name: "Add Movie", href: "/addmovie" },
-    { name: "SignUp / Login", href: "/signup" },
-  ];
-useEffect(() => {
+  let menuItems;
+  const data = localStorage.getItem("userData");
+  if (data) {
+    menuItems = [
+      { name: "Home", href: "/" },
+      { name: "Add Movie", href: "/addmovie" },
+      { name: "Login", href: "/login" },
+    ];
+  } else {
+    menuItems = [
+      { name: "Home", href: "/" },
+      { name: "Login", href: "/login" },
+    ];
+  }
+  useEffect(() => {
     const user = JSON.parse(localStorage.getItem("userData"));
     console.log(user);
-    if (user && user.Roll==="Admin") {
+    if (user && user.Roll === "Admin") {
       setAdmin(true);
     }
-},[])
+  }, []);
   return (
     <Navbar onMenuOpenChange={setIsMenuOpen}>
       <NavbarContent>
@@ -37,9 +45,9 @@ useEffect(() => {
           className="sm:hidden"
         />
         <Link to="/">
-        <NavbarBrand>
-          <p className="font-bold text-inherit">MovieUnivers</p>
-        </NavbarBrand>
+          <NavbarBrand>
+            <p className="font-bold text-inherit">MovieUnivers</p>
+          </NavbarBrand>
         </Link>
       </NavbarContent>
 
@@ -56,22 +64,20 @@ useEffect(() => {
           {admin === true ? (
             <Link to="addmovie">Add Movie</Link>
           ) : (
-            <Link to="/login">Login</Link>
+            <Button as={Link} color="primary" to="/login" variant="flat">
+              login
+            </Button>
           )}
         </NavbarItem>
         <NavbarItem>
           {admin === true ? (
             <Link to="/profile">
-            <Avatar
-              src="https://i.pravatar.cc/150?u=a04258a2462d826712d"
-              size="sm"
+              <Avatar
+                src="https://i.pravatar.cc/150?u=a04258a2462d826712d"
+                size="sm"
               />
             </Link>
-          ) : (
-            <Button as={Link} color="primary" to="/signup" variant="flat">
-              Sign Up
-            </Button>
-          )}
+          ) : null}
         </NavbarItem>
       </NavbarContent>
       <NavbarMenu>
