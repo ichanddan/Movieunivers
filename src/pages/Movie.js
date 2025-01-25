@@ -3,22 +3,27 @@ import { Card, CardHeader, CardBody, Image } from "@heroui/react";
 import ReactStars from "react-rating-stars-component";
 import { movieRef } from "../firebase/firebase";
 import { Puff } from "react-loader-spinner";
-import { getDocs, query, orderBy, limit, startAt } from "firebase/firestore";
+import { getDocs, query, orderBy, limit, startAfter } from "firebase/firestore";
 import { Link } from "react-router-dom";
 import PageNation from "../components/PageNation";
 
 export default function Movie() {
-  const [movieData, setMoviedata] = useState([]);
+  const [movieData, setMovieData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const moviesPerPage = 8; // Number of movies per page
-  const [totalMovies, setTotalMovies] = useState(0); // Total number of movies
+  const [totalMovies, setTotalMovies] = useState(0);
+  const [lastVisible, setLastVisible] = useState(null); // Store the last document for pagination
 
   // Fetch total number of movies
   useEffect(() => {
     async function fetchTotalMovies() {
-      const _data = await getDocs(movieRef);
-      setTotalMovies(_data.size); // Firebase's collection size
+      try {
+        const _data = await getDocs(movieRef);
+        setTotalMovies(_data.size); // Firebase's collection size
+      } catch (error) {
+        console.error("Error fetching total movies:", error);
+      }
     }
     fetchTotalMovies();
   }, []);
@@ -28,19 +33,25 @@ export default function Movie() {
     async function getData() {
       setLoading(true);
       try {
-        const movieQuery = query(
+        let movieQuery = query(
           movieRef,
-          orderBy("title"), // Change this field based on your Firestore structure
-          startAt((currentPage - 1) * moviesPerPage),
+          orderBy("title"), // Ensure the field exists in Firestore
           limit(moviesPerPage)
         );
+
+        // If not on the first page, start after the last visible document
+        if (currentPage > 1 && lastVisible) {
+          movieQuery = query(movieQuery, startAfter(lastVisible));
+        }
 
         const _data = await getDocs(movieQuery);
         const movies = [];
         _data.forEach((doc) => {
           movies.push({ ...doc.data(), id: doc.id });
         });
-        setMoviedata(movies);
+
+        setMovieData(movies);
+        setLastVisible(_data.docs[_data.docs.length - 1]); // Update the last document
       } catch (error) {
         console.error("Error fetching movie data:", error);
       } finally {
@@ -73,7 +84,6 @@ export default function Movie() {
                 <CardBody className="overflow-visible py-2">
                   <Image
                     alt="Card background"
-                    // className="object-cover rounded-xl h-60 md:h-72 lg:h-80 w-full flex items-center justify-center"
                     src={element.image}
                   />
                 </CardBody>
