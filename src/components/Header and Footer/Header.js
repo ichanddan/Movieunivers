@@ -1,28 +1,34 @@
-import React, { useState } from "react";
 import {
+  Avatar,
+  Button,
+  Input,
   Navbar,
   NavbarBrand,
   NavbarContent,
   NavbarItem,
-  NavbarMenuToggle,
   NavbarMenu,
   NavbarMenuItem,
-  Button,
-  Input,
+  NavbarMenuToggle,
 } from "@heroui/react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Avatar } from "@heroui/react";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-  const [admin, setAdmin] = useState(true);
+  const [admin, setAdmin] = useState(false);
 
   const menuItems = [
     { name: "Home", href: "/" },
     { name: "Add Movie", href: "/addmovie" },
     { name: "SignUp / Login", href: "/signup" },
   ];
-
+useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("userData"));
+    console.log(user);
+    if (user && user.Roll==="Admin") {
+      setAdmin(true);
+    }
+},[])
   return (
     <Navbar onMenuOpenChange={setIsMenuOpen}>
       <NavbarContent>

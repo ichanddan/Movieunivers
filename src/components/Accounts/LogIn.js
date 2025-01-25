@@ -1,10 +1,9 @@
-import { Button, Checkbox, Form, Input } from "@heroui/react";
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Button, Form, Input } from "@heroui/react";
+import React from "react";
 import swel from "sweetalert";
 
-import { userRef } from "../../firebase/firebase";
 import { getDocs, where } from "firebase/firestore";
+import { userRef } from "../../firebase/firebase";
 
 export default function LogIn() {
   const [isVisible, setIsVisible] = React.useState(false);
