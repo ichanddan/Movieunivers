@@ -1,7 +1,7 @@
-import { Button } from "@nextui-org/react";
+import { Button } from "@heroui/react";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Input } from "@nextui-org/react";
+import { Input } from "@heroui/react";
 import { EyeSlashFilledIcon } from "./PasswordHide/EyeSlashFilledIcon";
 import { EyeFilledIcon } from "./PasswordHide/EyeFilledIcon";
 import { userRef } from "../../firebase/firebase";

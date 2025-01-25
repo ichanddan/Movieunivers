@@ -9,9 +9,9 @@ import {
   NavbarMenuItem,
   Button,
   Input,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { Link } from "react-router-dom";
-import { Avatar } from "@nextui-org/react";
+import { Avatar } from "@heroui/react";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);

@@ -1,4 +1,4 @@
-import { Avatar } from "@nextui-org/react";
+import { Avatar } from "@heroui/react";
 import React, { useEffect, useState } from "react";
 import { userRef } from "../../firebase/firebase";
 import { getDocs } from "firebase/firestore";

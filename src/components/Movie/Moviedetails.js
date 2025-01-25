@@ -1,4 +1,4 @@
-import { Image } from '@nextui-org/image';
+import { Image } from "@heroui/image";
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { db } from '../../firebase/firebase';

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card, CardHeader, CardBody, Image } from "@nextui-org/react";
+import { Card, CardHeader, CardBody, Image } from "@heroui/react";
 import ReactStars from "react-rating-stars-component";
 import { movieRef } from "../../firebase/firebase";
 import { Puff } from "react-loader-spinner";
