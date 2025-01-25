@@ -11,6 +11,9 @@ export default function Movie() {
   const [movieData, setMoviedata] = useState([]);
   const [loding, setLoding] = useState();
   useEffect(() => {
+    if(!localStorage.getItem("userData")){
+      // window.location.reload();
+    }
     async function getData() {
       setLoding(true);
       const _data = await getDocs(movieRef);

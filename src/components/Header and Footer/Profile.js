@@ -108,6 +108,7 @@ export default function Profile() {
               <Button color="default" onPress={()=>{
                 localStorage.removeItem("userData");
                 navigate("/");
+                window.location.reload();
               }}>logout</Button>
 
               </div>
