@@ -1,95 +1,112 @@
+import { Button, Checkbox, Form, Input } from "@heroui/react";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { Button, Input } from "@heroui/react";
-import { EyeSlashFilledIcon } from "./PasswordHide/EyeSlashFilledIcon";
-import { EyeFilledIcon } from "./PasswordHide/EyeFilledIcon";
+import swel from "sweetalert";
+
+import { userRef } from "../../firebase/firebase";
+import { getDocs, where } from "firebase/firestore";
 
 export default function LogIn() {
   const [isVisible, setIsVisible] = React.useState(false);
-  const toggleVisibility = () => setIsVisible(!isVisible);
-  const [logData, setLogData]= useState({
-    Number:"",
-    Password:""
-  })
-  return (
-    <div>
-      <div className="min-h-screen bg-gray-100 text-gray-900 flex justify-center">
-        <div className="max-w-screen-xl m-0 sm: bg-white shadow sm:rounded-lg flex justify-center flex-1">
-          <div className="lg:w-1/2 xl:w-5/12 p-6 sm:p-12">
-            <div className="text-center"></div>
-            <div className="mt-12 flex flex-col items-center drop-shadow-md">
-              <h1 className="text-2xl xl:text-3xl font-extrabold">Log In</h1>
-              <div className="mx-auto max-w-xs mt-5">
-                <Input
-                value={logData.Number}
-                onChange={(e)=>{setLogData({...logData, Number:e.target.value})}}
-                  type="Number"
-                  variant="underlined"
-                  label="Number"
-                  placeholder="Enter your number"
-                  className="pb-5"
-                />
 
-                <Input
-                value={logData.password}
-                onChange={(e)=>{setLogData({...logData, password:e.target.value})}}
-                  label="Password"
-                  variant="underlined"
-                  placeholder="Enter your password"
-                  endContent={
-                    <button
-                      className="focus:outline-none"
-                      type="button"
-                      onClick={toggleVisibility}
-                    >
-                      {isVisible ? (
-                        <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
-                      ) : (
-                        <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
-                      )}
-                    </button>
-                  }
-                  type={isVisible ? "text" : "password"}
-                  className="max-w-xs"
-                />
-                <div className="flex items-center justify-center">
-                  <Button size="md" color="primary" className="mt-5">
-            
-                    <span>Login</span>
-                  </Button>
-                </div>
-                <p className="mt-6 text-xs text-gray-600 text-center">
-                  I agree to
-                  <Link
-                    href="#"
-                    className="border-b border-gray-500 border-dotted"
-                  >
-                    <span> Terms of Service</span>
-                  </Link>
-                  <span> and</span>
-                  <Link
-                    href="#"
-                    className="border-b border-gray-500 border-dotted"
-                  >
-                    <span> Privacy Policy</span>
-                  </Link>
-                </p>
-              </div>
-              <div className="mt-3">
-                <h1>
-                  Don't have a account{" "}
-                  <Link
-                    to="/signup"
-                    className="text-red-500 hover:border-b-2 border-b-green-400"
-                  >
-                    {" "}
-                    SignUp
-                  </Link>
-                </h1>
-              </div>
-            </div>
+  const toggleVisibility = () => setIsVisible(!isVisible);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(e.currentTarget));
+    console.log(data);
+    const user = await getDocs(userRef, where("Number", "==", data.email));
+    if (user.empty) {
+      swel({
+        title: "Number not registered",
+        icon: "error",
+        buttons: false,
+        timer: 3000,
+      });
+    }
+    user.forEach(async (doc) => {
+      if (doc.data().Password === data.password) {
+        swel({
+          title: "Succesfully Loged In",
+          icon: "success",
+          buttons: false,
+          timer: 3000,
+        });
+        await localStorage.setItem(
+          "userData",
+          JSON.stringify({ id: doc.id, ...doc.data() })
+        );
+        window.location.href = "/";
+      } else {
+        swel({
+          title: "Password is incorrect",
+          icon: "error",
+          buttons: false,
+          timer: 3000,
+        });
+      }
+    });
+    console.log(user);
+  };
+  return (
+    <div className="flex h-full w-full items-center justify-center">
+      <div className="flex w-full max-w-sm flex-col gap-4 rounded-large px-8 pb-10 pt-6">
+        <p className="pb-4 text-left text-3xl font-semibold">
+          Log In
+          <span aria-label="emoji" className="ml-2" role="img">
+            👋
+          </span>
+        </p>
+        <Form
+          className="flex flex-col gap-4"
+          validationBehavior="native"
+          onSubmit={handleSubmit}
+        >
+          <Input
+            isRequired
+            label="Email"
+            labelPlacement="outside"
+            name="email"
+            placeholder="Enter your number"
+            type="number"
+            variant="bordered"
+          />
+          <Input
+            isRequired
+            endContent={
+              <button type="button" onClick={toggleVisibility}>
+                {/* {isVisible ? (
+                  <Icon
+                    className="pointer-events-none text-2xl text-default-400"
+                    icon="solar:eye-closed-linear"
+                  />
+                ) : (
+                  <Icon
+                    className="pointer-events-none text-2xl text-default-400"
+                    icon="solar:eye-bold"
+                  />
+                )} */}
+              </button>
+            }
+            label="Password"
+            labelPlacement="outside"
+            name="password"
+            placeholder="Enter your password"
+            type={isVisible ? "text" : "password"}
+            variant="bordered"
+          />
+          <div className="flex w-full items-center justify-between px-1 py-2">
+            {/* <Checkbox defaultSelected name="remember" size="sm">
+              Remember me
+            </Checkbox> */}
+            {/* <Link className="text-default-500" href="#" size="sm">
+              Forgot password?
+            </Link> */}
           </div>
-        </div>
+          <Button className="w-full" color="primary" type="submit">
+            Log In
+          </Button>
+        </Form>
       </div>
     </div>
   );
